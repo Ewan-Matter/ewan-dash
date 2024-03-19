@@ -5,7 +5,7 @@ conda create -n dash_app python=3.10 -y
 conda activate dash_app
 ```
 
-# Install package
+# Install packages
 ```
 pip install -r requirements.txt
 ```
