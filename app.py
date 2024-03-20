@@ -1,4 +1,5 @@
 import plotly.express as px
+import plotly.graph_objects as go
 from dash import Dash, dcc, html, Input, Output
 import pandas as pd
 
@@ -13,7 +14,7 @@ for col in ['A', 'B']:
 
 # define the layout of the app
 app.layout = html.Div([
-    html.H4('TITLE'),
+    html.H4('Gulp values against time'),
     dcc.Graph(id="graph"),
     dcc.Checklist(
         id="checklist",
@@ -33,10 +34,15 @@ app.layout = html.Div([
     )
 def update_line_chart(checked):
     # uncomment below to read each time if you want to input file via the dashboard
-    # df = pd.read_table('Data for graphing test.txt')
-    
-    # TODO: extract and plot the columns shown
-    fig = px.line(df, x='A', y=checked[-1])  # option for color= arg here
+    df = pd.read_table('Data for graphing test.txt')
+
+    fig = go.Figure()
+
+    for item in checked:
+        fig.add_trace(go.Scatter(x=df["A"], y=df[item], mode='lines', name=item))
+
+    # Edit the layout
+    fig.update_layout(xaxis_title='Time (s)', yaxis_title='Value')
     return fig
 
 
